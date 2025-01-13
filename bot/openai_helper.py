@@ -18,9 +18,11 @@ from PIL import Image
 
 from tenacity import retry, stop_after_attempt, wait_fixed, retry_if_exception_type
 
-from utils import is_direct_result, encode_image, decode_image
-from plugin_manager import PluginManager
-from database import Database
+from .utils import is_direct_result, encode_image, decode_image
+
+if TYPE_CHECKING:
+    from .plugin_manager import PluginManager
+    from .database import Database
 
 logger = logging.getLogger(__name__)
 

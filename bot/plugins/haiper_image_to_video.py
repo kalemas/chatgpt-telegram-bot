@@ -1,35 +1,45 @@
 #haiper_image_to_video.py
-import os
-import logging
-import tempfile
-import aiohttp
-import io
-import base64
-import json
 import asyncio
-from typing import Dict, List, Optional
-from PIL import Image
-from datetime import datetime, timedelta
+import base64
 import contextlib
+import hashlib
+import io
+import json
+import logging
+import os
+import tempfile
 from asyncio import Queue, Task
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 from enum import Enum
+from typing import Dict, List, Optional
+
+import aiohttp
+import telegram
+from PIL import Image
 from telegram import (
-    InlineKeyboardMarkup,
+    ForceReply,
     InlineKeyboardButton,
+    InlineKeyboardMarkup,
     InlineQueryResultArticle,
     InputTextMessageContent,
+    ReplyKeyboardRemove,
     Update,
-    ForceReply, 
-    ReplyKeyboardRemove
+    constants,
 )
-from telegram.ext import ContextTypes, ConversationHandler, CallbackContext, CommandHandler, CallbackQueryHandler, MessageHandler, filters
-import hashlib
-import telegram
-from telegram import constants
+from telegram.ext import (
+    CallbackContext,
+    CallbackQueryHandler,
+    CommandHandler,
+    ContextTypes,
+    ConversationHandler,
+    MessageHandler,
+    filters,
+)
 
-from plugins.plugin import Plugin
-from utils import escape_markdown
+from ..utils import escape_markdown
+from .plugin import Plugin
+
 # API Configuration
 API_URL = "https://api.vsegpt.ru/v1/video"
 MAX_RETRIES = 4

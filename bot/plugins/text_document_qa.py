@@ -9,12 +9,12 @@ import faiss
 import numpy as np
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
-from plugins.plugin import Plugin
+from .plugin import Plugin
 import asyncio
 from docling.document_converter import DocumentConverter
 import tempfile
 import concurrent.futures
-from utils import handle_direct_result
+from ..utils import handle_direct_result
 import torch
 import gc
 

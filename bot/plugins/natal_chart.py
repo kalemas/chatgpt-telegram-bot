@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Dict, Any
 import math
 import logging
-from plugins.plugin import Plugin
+from .plugin import Plugin
 
 # Загрузка эфемерид
 swe.set_ephe_path('.')  # Укажите путь к файлам эфемерид, если требуется

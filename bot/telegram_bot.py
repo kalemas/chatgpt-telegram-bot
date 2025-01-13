@@ -1,38 +1,81 @@
 from __future__ import annotations
 
 import asyncio
+import io
+import json
 import logging
 import os
-import io
-import requests
-import json
-import sys
-import yaml
 import re
+import sys
 from typing import Dict
-
 from uuid import uuid4
-from telegram import BotCommandScopeAllGroupChats, Update, constants
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle
-from telegram import InputTextMessageContent, BotCommand
-from telegram.error import RetryAfter, TimedOut, BadRequest
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, \
-    filters, InlineQueryHandler, CallbackQueryHandler, Application, ContextTypes, CallbackContext
 
-from pydub import AudioSegment
+import requests
+import yaml
 from PIL import Image
+from pydub import AudioSegment
+from telegram import (
+    BotCommand,
+    BotCommandScopeAllGroupChats,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+    Update,
+    constants,
+)
+from telegram.error import BadRequest, RetryAfter, TimedOut
+from telegram.ext import (
+    Application,
+    ApplicationBuilder,
+    CallbackContext,
+    CallbackQueryHandler,
+    CommandHandler,
+    ContextTypes,
+    InlineQueryHandler,
+    MessageHandler,
+    filters,
+)
 
-from utils import is_group_chat, get_thread_id, message_text, wrap_with_indicator, split_into_chunks, \
-    edit_message_with_retry, get_stream_cutoff_values, is_allowed, get_remaining_budget, is_admin, is_within_budget, \
-    get_reply_to_message_id, add_chat_request_to_usage_tracker, error_handler, is_direct_result, handle_direct_result, \
-    cleanup_intermediate_files
-from openai_helper import GPT_3_16K_MODELS, GPT_3_MODELS, GPT_4_128K_MODELS, GPT_4_32K_MODELS, GPT_4_MODELS, \
-    GPT_4_VISION_MODELS, GPT_4O_MODELS, OpenAIHelper, localized_text, O1_MODELS, GPT_ALL_MODELS, ANTHROPIC, GOOGLE, MISTRALAI
-from plugins.haiper_image_to_video import WAITING_PROMPT
-from usage_tracker import UsageTracker
-from database import Database
-
-#logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
+from .database import Database
+from .openai_helper import (
+    ANTHROPIC,
+    GOOGLE,
+    GPT_3_16K_MODELS,
+    GPT_3_MODELS,
+    GPT_4_32K_MODELS,
+    GPT_4_128K_MODELS,
+    GPT_4_MODELS,
+    GPT_4_VISION_MODELS,
+    GPT_4O_MODELS,
+    GPT_ALL_MODELS,
+    MISTRALAI,
+    O1_MODELS,
+    OpenAIHelper,
+    localized_text,
+    get_available_model_groups
+)
+from .plugins.haiper_image_to_video import WAITING_PROMPT
+from .usage_tracker import UsageTracker
+from .utils import (
+    add_chat_request_to_usage_tracker,
+    cleanup_intermediate_files,
+    edit_message_with_retry,
+    error_handler,
+    get_remaining_budget,
+    get_reply_to_message_id,
+    get_stream_cutoff_values,
+    get_thread_id,
+    handle_direct_result,
+    is_admin,
+    is_allowed,
+    is_direct_result,
+    is_group_chat,
+    is_within_budget,
+    message_text,
+    split_into_chunks,
+    wrap_with_indicator,
+)
 
 WAITING_PROMPT = 1
 

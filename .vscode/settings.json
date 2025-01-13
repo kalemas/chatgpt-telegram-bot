@@ -1,0 +1,8 @@
+{
+    "files.trimTrailingWhitespace": true,
+    "cSpell.language": "en,ru",
+    "cSpell.enabledFileTypes": {
+        "json": true
+    },
+    "cSpell.enabled": true,
+}
